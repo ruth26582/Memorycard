@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>記憶遊戲</title>
+    <style>
+        body {
+            background-color: rgb(250, 228, 225);
+        }
+
+        .card {
+            height: 160px;
+            width: 100px;
+            border: none;
+        }
+
+        .cardImg {
+            height: 100px;
+            width: 70px;
+            border: none;
+
+        }
+
+        #cardsDiv {
+            width: 500px;
+            height: 700px;
+
+        }
+
+        #dashBoard {
+            width: 480px;
+            height: 400px;
+            border: rgb(171, 123, 226) 2px solid;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-3 d-flex justify-content-between">
+        <div id="cardsDiv" class="row">
+            <!--<a href="#" class="btn bg overflow-hidden card col-3 mt-2 " role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>
+            <a href="#" class="btn bg overflow-hidden card col-3 mt-2" role="button"
+                style="background: url(./images/card-bg.png) center no-repeat;background-size: 80%;"></a>-->
+        </div>
+
+        <div id="dashBoard">
+
+            <h2 class="text-lightslategrey">已消除:</h2>
+            <div id="finishDiv" class="d-flex flex-wrap"> </div>
+
+
+            <button id="start" type="button" class="btn btn-outline-primary mt-3 w-100">開始遊戲</button>
+            <button id="reStart" type="button" class="btn btn-outline-secondary my-2 w-100 "disabled >重新開始</button>
+
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+
+        $(function () {
+            var index = [];
+            var currentCards = [];
+            var cards = [];
+            var suits = ["spades", "hearts", "diamonds", "clubs"];
+            var click = 0;
+            var pair = [];
+            var bingo = 0;
+            setCards();
+            randomCards();
+           
+
+            $("#start").on("click", function () {
+                
+                randomCards();
+                
+                $(".card").removeClass("disabled");
+                $("#start").attr("disabled", "disabled");
+                $("#reStart").removeAttr("disabled");
+            });
+
+            $("#reStart").on("click", function () {
+                index = [];
+                currentCards = [];
+                cards = [];
+                click = 0;
+                pair = [];
+                bingo = 0;
+
+                setCards();
+                
+                $("#start").removeAttr("disabled");
+                $("#reStart").attr("disabled", "disabled");
+                $("#finishDiv").empty();
+            });
+
+            $(".card").on("click", function () {
+                
+                $this = $(this).attr("id");
+                turnCard($this);
+                pair.push(currentCards[$this], $this);
+                click++;
+                if (click == 2) {
+                    isPair();
+                }
+                console.log("click=" + click, pair);
+            })
+
+            function setCards() {
+                $("#cardsDiv").html("");
+
+                for (var i = 0; i < 16; i++) {
+                    $("#cardsDiv")
+                        .append('<a href="#" id="'+i+'"class="btn bg overflow-hidden card col-3 mt-2 disabled" role="button"' +
+                            ' style = "background: url(./images/card-bg.png) center no-repeat;background-size: 80%;" ></a >');
+                }
+                for (var j = 0; j < 16; j++) {
+                    index.push(j);
+                
+                }
+            }
+
+            function randomCards() {
+
+                var pickCards = 8;
+                var putCards = 0;
+                var card;
+                var pair = [];
+                while (pickCards > 0) {
+                    var suit = Math.floor(Math.random() * 3);
+
+                    card = suits[suit] + "-" + (Math.floor(Math.random() * 13) + 1);
+                    if (cards.indexOf(card) == -1) {
+                        cards.push(card);
+                        pickCards--;
+                    }
+                }
+                cards = cards.concat(cards);
+                var a = [];
+
+
+                while (index.length > 0) {
+                    var cardIndex = Math.floor(Math.random() * index.length);
+                    currentCards.push(cards[index[cardIndex]]);
+                    index.splice(cardIndex, 1);
+                }
+            }
+
+            function turnCard(id){
+                $("#"+id).css({ "background": "url(./images/"+ currentCards[id]+".png) center no-repeat", "background-size": "80%" })
+            }
+            function resetCard(){
+                click=0;
+                pair=[];
+                $(".card").css({ "background": "url(./images/card-bg.png) center no-repeat", "background-size": "80%" })
+            }
+            function isPair(){
+                if(pair[0]==pair[2]){
+                    
+                    $("#"+pair[1]).addClass("invisible");
+                    $("#" + pair[3]).addClass("invisible");
+                    $("#finishDiv").append('<div class="cardImg"'+
+                    ' style = "background: url(./images/'+ pair[0]+'.png) center no-repeat;background-size: 80%;" ></div >');             
+                    
+                    click = 0;
+                    pair = []; 
+                    bingo++;                                       
+                }
+                else{
+                    setTimeout(function () { resetCard(); }, 1000);
+                    
+                }
+                if(bingo==8){
+                    alert("恭喜過關!");
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>
